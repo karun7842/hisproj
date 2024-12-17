@@ -26,3 +26,14 @@ private static MediaPlayer createMediaPlayer(String videoPath) {
     Media media = new Media(path);
     return new MediaPlayer(media);
 }
+
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-controls</artifactId>
+    <version>17.0.2</version>
+</dependency>
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-media</artifactId>
+    <version>17.0.2</version>
+</dependency>
