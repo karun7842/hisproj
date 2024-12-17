@@ -1,121 +1,68 @@
-package his.welcome;
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import java.awt.Font;
+import javax.swing.*;
 
 public class WelcomePage {
-	 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Hospital Information System");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600);
             frame.setLocationRelativeTo(null); // Center the window
- 
+
             // Create a panel for the welcome screen content
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
- 
+
             // Create and add a hospital-related image
-            JLabel imageLabel = new JLabel(new ImageIcon("src\\main\\java\\assets\\welcome.jpg")); // Use your hospital image here
+            JLabel imageLabel = new JLabel(new ImageIcon("src\\main\\java\\assets\\welcome.jpg"));
             panel.add(imageLabel, BorderLayout.CENTER);
- 
+
             // Create a menu bar
             JMenuBar menuBar = new JMenuBar();
- 
+
             // Create the "Registration" menu
             JMenu registrationMenu = new JMenu("Registration");
+            registrationMenu.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font for uniformity
 
             JMenuItem patientRegistration = new JMenuItem("Patient Registration");
-            patientRegistration.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Patient Registration clicked.");
-                    // Here you can add the actual registration functionality
-                }
-            });
+            patientRegistration.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Patient Registration clicked."));
             registrationMenu.add(patientRegistration);
 
             JMenuItem doctorRegistration = new JMenuItem("Doctor Registration");
-            doctorRegistration.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Doctor Registration clicked.");
-                    // Here you can add the actual registration functionality
-                }
-            });
+            doctorRegistration.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Doctor Registration clicked."));
             registrationMenu.add(doctorRegistration);
 
             // Create the "Appointments" menu
             JMenu appointmentsMenu = new JMenu("Appointments");
+            appointmentsMenu.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font for uniformity
 
             JMenuItem createAppointment = new JMenuItem("Create Appointment");
-            createAppointment.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Create Appointment clicked.");
-                    // Add create appointment functionality here
-                }
-            });
+            createAppointment.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Create Appointment clicked."));
             appointmentsMenu.add(createAppointment);
 
             JMenuItem rescheduleAppointment = new JMenuItem("Reschedule Appointment");
-            rescheduleAppointment.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Reschedule Appointment clicked.");
-                    // Add reschedule appointment functionality here
-                }
-            });
+            rescheduleAppointment.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Reschedule Appointment clicked."));
             appointmentsMenu.add(rescheduleAppointment);
 
             // Create the "Browser" menu
             JMenu browserMenu = new JMenu("Browser");
+            browserMenu.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font for uniformity
 
             JMenuItem searchPatient = new JMenuItem("Search Patient");
-            searchPatient.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Search Patient clicked.");
-                    // Add search patient functionality here
-                }
-            });
+            searchPatient.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Search Patient clicked."));
             browserMenu.add(searchPatient);
 
             JMenuItem searchDoctor = new JMenuItem("Search Doctor");
-            searchDoctor.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Search Doctor clicked.");
-                    // Add search doctor functionality here
-                }
-            });
+            searchDoctor.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Search Doctor clicked."));
             browserMenu.add(searchDoctor);
 
             // Create the "Consultation" menu
             JMenu consultationMenu = new JMenu("Consultation");
+            consultationMenu.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font for uniformity
 
             // Create the "Same Consultation" menu item
             JMenuItem sameConsultation = new JMenuItem("Same Consultation");
-            sameConsultation.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(frame, "Same Consultation clicked.");
-                    // Add same consultation functionality here
-                }
-            });
+            sameConsultation.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Same Consultation clicked."));
             consultationMenu.add(sameConsultation);
 
             // Add the menus to the menu bar
