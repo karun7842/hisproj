@@ -29,20 +29,15 @@ public class WelcomePage {
             panel.setLayout(new BorderLayout());
  
             // Create and add a hospital-related image
-            
-			JLabel imageLabel = new JLabel(new ImageIcon("src\\main\\java\\assets\\welcome.jpg")); // Use your hospital image here"
+            JLabel imageLabel = new JLabel(new ImageIcon("src\\main\\java\\assets\\welcome.jpg")); // Use your hospital image here
             panel.add(imageLabel, BorderLayout.CENTER);
-            
-            
-            
  
-
             // Create a menu bar
             JMenuBar menuBar = new JMenuBar();
  
             // Create the "Registration" menu
             JMenu registrationMenu = new JMenu("Registration");
- 
+
             JMenuItem patientRegistration = new JMenuItem("Patient Registration");
             patientRegistration.addActionListener(new ActionListener() {
                 @Override
@@ -52,7 +47,7 @@ public class WelcomePage {
                 }
             });
             registrationMenu.add(patientRegistration);
- 
+
             JMenuItem doctorRegistration = new JMenuItem("Doctor Registration");
             doctorRegistration.addActionListener(new ActionListener() {
                 @Override
@@ -62,10 +57,10 @@ public class WelcomePage {
                 }
             });
             registrationMenu.add(doctorRegistration);
- 
+
             // Create the "Appointments" menu
             JMenu appointmentsMenu = new JMenu("Appointments");
- 
+
             JMenuItem createAppointment = new JMenuItem("Create Appointment");
             createAppointment.addActionListener(new ActionListener() {
                 @Override
@@ -75,7 +70,7 @@ public class WelcomePage {
                 }
             });
             appointmentsMenu.add(createAppointment);
- 
+
             JMenuItem rescheduleAppointment = new JMenuItem("Reschedule Appointment");
             rescheduleAppointment.addActionListener(new ActionListener() {
                 @Override
@@ -85,10 +80,10 @@ public class WelcomePage {
                 }
             });
             appointmentsMenu.add(rescheduleAppointment);
- 
+
             // Create the "Browser" menu
             JMenu browserMenu = new JMenu("Browser");
- 
+
             JMenuItem searchPatient = new JMenuItem("Search Patient");
             searchPatient.addActionListener(new ActionListener() {
                 @Override
@@ -98,7 +93,7 @@ public class WelcomePage {
                 }
             });
             browserMenu.add(searchPatient);
- 
+
             JMenuItem searchDoctor = new JMenuItem("Search Doctor");
             searchDoctor.addActionListener(new ActionListener() {
                 @Override
@@ -108,23 +103,37 @@ public class WelcomePage {
                 }
             });
             browserMenu.add(searchDoctor);
- 
+
+            // Create the "Consultation" menu
+            JMenu consultationMenu = new JMenu("Consultation");
+
+            // Create the "Same Consultation" menu item
+            JMenuItem sameConsultation = new JMenuItem("Same Consultation");
+            sameConsultation.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Same Consultation clicked.");
+                    // Add same consultation functionality here
+                }
+            });
+            consultationMenu.add(sameConsultation);
+
             // Add the menus to the menu bar
             menuBar.add(registrationMenu);
             menuBar.add(appointmentsMenu);
             menuBar.add(browserMenu);
- 
+            menuBar.add(consultationMenu); // Add Consultation menu here
+
             // Set the menu bar for the frame
             frame.setJMenuBar(menuBar);
- 
+
             // Add the main panel to the frame
             frame.add(panel);
-            
-            
- 
+
             // Make the frame visible
             frame.setVisible(true);
         });
+
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -135,8 +144,5 @@ public class WelcomePage {
         } catch (Exception e) {
             System.err.println("Nimbus Look and Feel not applied. Falling back to default.");
         }
-
     }
-
-   
 }
