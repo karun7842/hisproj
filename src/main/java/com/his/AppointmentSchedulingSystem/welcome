@@ -1,15 +1,15 @@
 package his.welcome;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.*;
 
 public class WelcomePage {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            // Apply Nimbus Look and Feel
             try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -26,73 +26,64 @@ public class WelcomePage {
             frame.setSize(900, 700);
             frame.setLocationRelativeTo(null); // Center the window
 
-            // Main Panel
-            JPanel mainPanel = new JPanel(new BorderLayout());
-            mainPanel.setBackground(Color.WHITE); // Background color for the panel
+            // Animated background panel
+            AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel("src/main/java/assets/welcome.jpg");
+            backgroundPanel.setLayout(new BorderLayout());
 
             // Welcome Label
             JLabel welcomeLabel = new JLabel("Welcome to Hospital Information System", SwingConstants.CENTER);
-            welcomeLabel.setFont(new Font("Serif", Font.BOLD, 28));
-            welcomeLabel.setForeground(new Color(0, 102, 204)); // Nice blue color
-            mainPanel.add(welcomeLabel, BorderLayout.NORTH);
-
-            // Center Image
-            ImageIcon originalImage = new ImageIcon("src/main/java/assets/welcome.jpg");
-            Image scaledImage = originalImage.getImage().getScaledInstance(800, 400, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
-            imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            mainPanel.add(imageLabel, BorderLayout.CENTER);
-
-            // Quick Access Toolbar
-            JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-            JButton btnPatientReg = new JButton("Patient Registration");
-            JButton btnDoctorReg = new JButton("Doctor Registration");
-            JButton btnAppointment = new JButton("Create Appointment");
-
-            styleButton(btnPatientReg);
-            styleButton(btnDoctorReg);
-            styleButton(btnAppointment);
-
-            toolbar.add(btnPatientReg);
-            toolbar.add(btnDoctorReg);
-            toolbar.add(btnAppointment);
-
-            mainPanel.add(toolbar, BorderLayout.SOUTH);
+            welcomeLabel.setFont(new Font("Serif", Font.BOLD, 30));
+            welcomeLabel.setForeground(Color.WHITE);
+            welcomeLabel.setOpaque(false);
+            backgroundPanel.add(welcomeLabel, BorderLayout.NORTH);
 
             // Menu Bar
             JMenuBar menuBar = createMenuBar(frame);
             frame.setJMenuBar(menuBar);
 
-            frame.add(mainPanel);
+            // Add the background panel
+            frame.add(backgroundPanel);
             frame.setVisible(true);
         });
     }
 
     private static JMenuBar createMenuBar(JFrame frame) {
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(new Color(0, 102, 204)); // Stylish blue color for the menu bar
 
+        // Registration Menu
         JMenu registrationMenu = new JMenu("Registration");
+        registrationMenu.setForeground(Color.WHITE);
         JMenuItem patientReg = new JMenuItem("Patient Registration");
         JMenuItem doctorReg = new JMenuItem("Doctor Registration");
+
         registrationMenu.add(patientReg);
         registrationMenu.add(doctorReg);
 
+        // Appointments Menu
         JMenu appointmentsMenu = new JMenu("Appointments");
+        appointmentsMenu.setForeground(Color.WHITE);
         JMenuItem createAppt = new JMenuItem("Create Appointment");
         JMenuItem rescheduleAppt = new JMenuItem("Reschedule Appointment");
+
         appointmentsMenu.add(createAppt);
         appointmentsMenu.add(rescheduleAppt);
 
+        // Browser Menu
         JMenu browserMenu = new JMenu("Browser");
+        browserMenu.setForeground(Color.WHITE);
         JMenuItem searchPatient = new JMenuItem("Search Patient");
         JMenuItem searchDoctor = new JMenuItem("Search Doctor");
+
         browserMenu.add(searchPatient);
         browserMenu.add(searchDoctor);
 
+        // Add menus to the menu bar
         menuBar.add(registrationMenu);
         menuBar.add(appointmentsMenu);
         menuBar.add(browserMenu);
 
+        // Action Listeners
         patientReg.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Patient Registration clicked."));
         doctorReg.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Doctor Registration clicked."));
         createAppt.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Create Appointment clicked."));
@@ -102,12 +93,35 @@ public class WelcomePage {
 
         return menuBar;
     }
+}
 
-    private static void styleButton(JButton button) {
-        button.setFont(new Font("SansSerif", Font.BOLD, 14));
-        button.setFocusPainted(false);
-        button.setBackground(new Color(0, 153, 255)); // Light blue color
-        button.setForeground(Color.WHITE);
-        button.setPreferredSize(new Dimension(180, 40));
+// Custom JPanel for animated background
+class AnimatedBackgroundPanel extends JPanel {
+    private Image backgroundImage;
+    private int xPosition = 0;
+    private int speed = 1; // Speed of movement
+
+    public AnimatedBackgroundPanel(String imagePath) {
+        this.backgroundImage = new ImageIcon(imagePath).getImage();
+
+        // Timer for animation
+        Timer timer = new Timer(20, e -> {
+            xPosition += speed;
+            if (xPosition > getWidth()) {
+                xPosition = -backgroundImage.getWidth(null);
+            }
+            repaint();
+        });
+        timer.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            // Scale the image to fit the window size
+            g.drawImage(backgroundImage, xPosition, 0, getWidth(), getHeight(), this);
+            g.drawImage(backgroundImage, xPosition - getWidth(), 0, getWidth(), getHeight(), this);
+        }
     }
 }
