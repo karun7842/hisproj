@@ -1,133 +1,142 @@
 package his.welcome;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WelcomePage {
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
+public class WelcomePage {
+	 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Apply Nimbus Look and Feel
-            try {
-                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                System.err.println("Nimbus Look and Feel not applied. Falling back to default.");
-            }
-
             JFrame frame = new JFrame("Hospital Information System");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(900, 700);
+            frame.setSize(800, 600);
             frame.setLocationRelativeTo(null); // Center the window
+ 
+            // Create a panel for the welcome screen content
+            JPanel panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+ 
+            // Create and add a hospital-related image
+            
+			JLabel imageLabel = new JLabel(new ImageIcon("src\\main\\java\\assets\\welcome.jpg")); // Use your hospital image here"
+            panel.add(imageLabel, BorderLayout.CENTER);
+            
+            
+            
+ 
 
-            // Animated background panel
-            AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel("src/main/java/assets/welcome.jpg");
-            backgroundPanel.setLayout(new BorderLayout());
-
-            // Welcome Label
-            JLabel welcomeLabel = new JLabel("Welcome to Hospital Information System", SwingConstants.CENTER);
-            welcomeLabel.setFont(new Font("Serif", Font.BOLD, 30));
-            welcomeLabel.setForeground(Color.WHITE);
-            backgroundPanel.add(welcomeLabel, BorderLayout.NORTH);
-
-            // Menu Bar
-            JMenuBar menuBar = createMenuBar(frame);
+            // Create a menu bar
+            JMenuBar menuBar = new JMenuBar();
+ 
+            // Create the "Registration" menu
+            JMenu registrationMenu = new JMenu("Registration");
+ 
+            JMenuItem patientRegistration = new JMenuItem("Patient Registration");
+            patientRegistration.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Patient Registration clicked.");
+                    // Here you can add the actual registration functionality
+                }
+            });
+            registrationMenu.add(patientRegistration);
+ 
+            JMenuItem doctorRegistration = new JMenuItem("Doctor Registration");
+            doctorRegistration.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Doctor Registration clicked.");
+                    // Here you can add the actual registration functionality
+                }
+            });
+            registrationMenu.add(doctorRegistration);
+ 
+            // Create the "Appointments" menu
+            JMenu appointmentsMenu = new JMenu("Appointments");
+ 
+            JMenuItem createAppointment = new JMenuItem("Create Appointment");
+            createAppointment.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Create Appointment clicked.");
+                    // Add create appointment functionality here
+                }
+            });
+            appointmentsMenu.add(createAppointment);
+ 
+            JMenuItem rescheduleAppointment = new JMenuItem("Reschedule Appointment");
+            rescheduleAppointment.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Reschedule Appointment clicked.");
+                    // Add reschedule appointment functionality here
+                }
+            });
+            appointmentsMenu.add(rescheduleAppointment);
+ 
+            // Create the "Browser" menu
+            JMenu browserMenu = new JMenu("Browser");
+ 
+            JMenuItem searchPatient = new JMenuItem("Search Patient");
+            searchPatient.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Search Patient clicked.");
+                    // Add search patient functionality here
+                }
+            });
+            browserMenu.add(searchPatient);
+ 
+            JMenuItem searchDoctor = new JMenuItem("Search Doctor");
+            searchDoctor.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(frame, "Search Doctor clicked.");
+                    // Add search doctor functionality here
+                }
+            });
+            browserMenu.add(searchDoctor);
+ 
+            // Add the menus to the menu bar
+            menuBar.add(registrationMenu);
+            menuBar.add(appointmentsMenu);
+            menuBar.add(browserMenu);
+ 
+            // Set the menu bar for the frame
             frame.setJMenuBar(menuBar);
-
-            // Add the background panel
-            frame.add(backgroundPanel);
+ 
+            // Add the main panel to the frame
+            frame.add(panel);
+            
+            
+ 
+            // Make the frame visible
             frame.setVisible(true);
         });
-    }
-
-    private static JMenuBar createMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(0, 51, 102)); // Stylish dark blue color for the menu bar
-
-        // Customize menu bar UI
-        UIManager.put("Menu.foreground", Color.WHITE);
-        UIManager.put("MenuItem.background", new Color(0, 51, 102));
-        UIManager.put("MenuItem.foreground", Color.WHITE);
-        UIManager.put("Menu.selectionBackground", new Color(0, 102, 204));
-        UIManager.put("Menu.selectionForeground", Color.WHITE);
-
-        // Registration Menu
-        JMenu registrationMenu = new JMenu("Registration");
-        JMenuItem patientReg = new JMenuItem("Patient Registration");
-        JMenuItem doctorReg = new JMenuItem("Doctor Registration");
-        registrationMenu.add(patientReg);
-        registrationMenu.add(doctorReg);
-
-        // Appointments Menu
-        JMenu appointmentsMenu = new JMenu("Appointments");
-        JMenuItem createAppt = new JMenuItem("Create Appointment");
-        JMenuItem rescheduleAppt = new JMenuItem("Reschedule Appointment");
-        appointmentsMenu.add(createAppt);
-        appointmentsMenu.add(rescheduleAppt);
-
-        // Browser Menu
-        JMenu browserMenu = new JMenu("Browser");
-        JMenuItem searchPatient = new JMenuItem("Search Patient");
-        JMenuItem searchDoctor = new JMenuItem("Search Doctor");
-        browserMenu.add(searchPatient);
-        browserMenu.add(searchDoctor);
-
-        // Add menus to the menu bar
-        menuBar.add(registrationMenu);
-        menuBar.add(appointmentsMenu);
-        menuBar.add(browserMenu);
-
-        // Action Listeners
-        patientReg.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Patient Registration clicked."));
-        doctorReg.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Doctor Registration clicked."));
-        createAppt.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Create Appointment clicked."));
-        rescheduleAppt.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Reschedule Appointment clicked."));
-        searchPatient.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Search Patient clicked."));
-        searchDoctor.addActionListener(e -> JOptionPane.showMessageDialog(frame, "Search Doctor clicked."));
-
-        return menuBar;
-    }
-}
-
-// Custom JPanel for animated background with double buffering
-class AnimatedBackgroundPanel extends JPanel {
-    private Image backgroundImage;
-    private int xPosition = 0;
-    private int speed = 1; // Speed of movement
-
-    public AnimatedBackgroundPanel(String imagePath) {
-        this.backgroundImage = new ImageIcon(imagePath).getImage();
-
-        // Timer for animation
-        Timer timer = new Timer(20, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                xPosition -= speed; // Move the background left
-                if (xPosition <= -getWidth()) {
-                    xPosition = 0; // Reset position for seamless animation
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-                repaint();
             }
-        });
-        timer.start();
-        setDoubleBuffered(true); // Enable double buffering for smoother animation
+        } catch (Exception e) {
+            System.err.println("Nimbus Look and Feel not applied. Falling back to default.");
+        }
+
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (backgroundImage != null) {
-            int imageWidth = getWidth();
-            int imageHeight = getHeight();
-            // Draw two images side by side for seamless animation
-            g.drawImage(backgroundImage, xPosition, 0, imageWidth, imageHeight, this);
-            g.drawImage(backgroundImage, xPosition + imageWidth, 0, imageWidth, imageHeight, this);
-        }
-    }
+   
 }
