@@ -34,7 +34,6 @@ public class WelcomePage {
             JLabel welcomeLabel = new JLabel("Welcome to Hospital Information System", SwingConstants.CENTER);
             welcomeLabel.setFont(new Font("Serif", Font.BOLD, 30));
             welcomeLabel.setForeground(Color.WHITE);
-            welcomeLabel.setOpaque(false);
             backgroundPanel.add(welcomeLabel, BorderLayout.NORTH);
 
             // Menu Bar
@@ -49,32 +48,33 @@ public class WelcomePage {
 
     private static JMenuBar createMenuBar(JFrame frame) {
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(0, 102, 204)); // Stylish blue color for the menu bar
+        menuBar.setBackground(new Color(0, 51, 102)); // Stylish dark blue color for the menu bar
+
+        // Customize menu bar UI
+        UIManager.put("Menu.foreground", Color.WHITE);
+        UIManager.put("MenuItem.background", new Color(0, 51, 102));
+        UIManager.put("MenuItem.foreground", Color.WHITE);
+        UIManager.put("Menu.selectionBackground", new Color(0, 102, 204));
+        UIManager.put("Menu.selectionForeground", Color.WHITE);
 
         // Registration Menu
         JMenu registrationMenu = new JMenu("Registration");
-        registrationMenu.setForeground(Color.WHITE);
         JMenuItem patientReg = new JMenuItem("Patient Registration");
         JMenuItem doctorReg = new JMenuItem("Doctor Registration");
-
         registrationMenu.add(patientReg);
         registrationMenu.add(doctorReg);
 
         // Appointments Menu
         JMenu appointmentsMenu = new JMenu("Appointments");
-        appointmentsMenu.setForeground(Color.WHITE);
         JMenuItem createAppt = new JMenuItem("Create Appointment");
         JMenuItem rescheduleAppt = new JMenuItem("Reschedule Appointment");
-
         appointmentsMenu.add(createAppt);
         appointmentsMenu.add(rescheduleAppt);
 
         // Browser Menu
         JMenu browserMenu = new JMenu("Browser");
-        browserMenu.setForeground(Color.WHITE);
         JMenuItem searchPatient = new JMenuItem("Search Patient");
         JMenuItem searchDoctor = new JMenuItem("Search Doctor");
-
         browserMenu.add(searchPatient);
         browserMenu.add(searchDoctor);
 
@@ -95,7 +95,7 @@ public class WelcomePage {
     }
 }
 
-// Custom JPanel for animated background
+// Custom JPanel for animated background with double buffering
 class AnimatedBackgroundPanel extends JPanel {
     private Image backgroundImage;
     private int xPosition = 0;
@@ -105,23 +105,29 @@ class AnimatedBackgroundPanel extends JPanel {
         this.backgroundImage = new ImageIcon(imagePath).getImage();
 
         // Timer for animation
-        Timer timer = new Timer(20, e -> {
-            xPosition += speed;
-            if (xPosition > getWidth()) {
-                xPosition = -backgroundImage.getWidth(null);
+        Timer timer = new Timer(20, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xPosition -= speed; // Move the background left
+                if (xPosition <= -getWidth()) {
+                    xPosition = 0; // Reset position for seamless animation
+                }
+                repaint();
             }
-            repaint();
         });
         timer.start();
+        setDoubleBuffered(true); // Enable double buffering for smoother animation
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (backgroundImage != null) {
-            // Scale the image to fit the window size
-            g.drawImage(backgroundImage, xPosition, 0, getWidth(), getHeight(), this);
-            g.drawImage(backgroundImage, xPosition - getWidth(), 0, getWidth(), getHeight(), this);
+            int imageWidth = getWidth();
+            int imageHeight = getHeight();
+            // Draw two images side by side for seamless animation
+            g.drawImage(backgroundImage, xPosition, 0, imageWidth, imageHeight, this);
+            g.drawImage(backgroundImage, xPosition + imageWidth, 0, imageWidth, imageHeight, this);
         }
     }
 }
