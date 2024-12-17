@@ -1,0 +1,28 @@
+// Replace the JPanel with a JFXPanel for video playback
+JFXPanel jfxPanel = new JFXPanel();
+frame.add(jfxPanel, BorderLayout.CENTER);
+
+Platform.runLater(() -> {
+    MediaPlayer mediaPlayer = createMediaPlayer("src/main/java/assets/background.mp4");
+    MediaView mediaView = new MediaView(mediaPlayer);
+
+    // Adjust the video size to fit the frame
+    mediaView.setFitWidth(900);
+    mediaView.setFitHeight(700);
+    mediaView.setPreserveRatio(false);
+
+    StackPane root = new StackPane(mediaView);
+    Scene scene = new Scene(root);
+    jfxPanel.setScene(scene);
+
+    mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the video
+    mediaPlayer.play();
+});
+
+
+/////
+private static MediaPlayer createMediaPlayer(String videoPath) {
+    String path = new java.io.File(videoPath).toURI().toString(); // Convert file path to URI
+    Media media = new Media(path);
+    return new MediaPlayer(media);
+}
